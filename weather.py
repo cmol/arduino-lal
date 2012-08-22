@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import serial
-#import Thread
 import sqlite3
 import datetime
 import signal
@@ -32,7 +31,7 @@ class Weather:
     
   def str_with_colors(self):
     return ('V: %s %sm/s T:%sK P:%s H:%s' % 
-      (Weather.WIND_DIRECTION[self.__wind_direction],
+      (Style.BRIGHT + Weather.WIND_DIRECTION[self.__wind_direction],
       self.__wind_speed,
       (Fore.RED if self.__temperature > 273 else Fore.CYAN) + str(self.__temperature) + Fore.RESET,
       (Fore.GREEN if self.__preasure < 0.5 else Fore.RED) + str(self.__preasure) + Fore.RESET,
@@ -63,7 +62,7 @@ while True:
   if len(sensors) != 5:
     continue
   weather.update(*sensors);
-  stdout.write("\r%s %s" % ('{: <56}'.format(weather.str_with_colors()), Fore.RESET))
+  stdout.write("\r%s %s %s" % ('{: <56}'.format(weather.str_with_colors()), Fore.RESET, Style.RESET_ALL))
   stdout.flush()
   weather.log()
   ser.write("1:%s" % '{: <32}'.format(weather))

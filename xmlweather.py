@@ -9,7 +9,7 @@ db = sqlite3.connect('log.db')
 db.row_factory = sqlite3.Row
 c = db.cursor()
 
-columns = ['wind_direction',  'wind_direction', 'wind_speed', 'temperature', 'preasure', 'humidity']
+columns = ['wind_direction', 'wind_speed', 'temperature', 'preasure', 'humidity']
 columns_sql = []
 for column in columns:
   columns_sql.append('min({0}) as min_{0}, max({0}) as max_{0}, avg({0}) as avg_{0}'.format(column))

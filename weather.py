@@ -6,6 +6,7 @@ import datetime
 import signal
 import sys
 from sys import stdout
+from colorama import init, Fore, Back, Style
 
 class Weather: 
 
@@ -28,6 +29,15 @@ class Weather:
 
   def __str__(self):
     return ('V: %s %sm/s T:%sK P:%s H:%s' % (Weather.WIND_DIRECTION[self.__wind_direction], self.__wind_speed, self.__temperature, self.__preasure, self.__humidity))
+    
+  def str_with_colors(self):
+    return ('V: %s %sm/s T:%sK P:%s H:%s' % 
+      (Weather.WIND_DIRECTION[self.__wind_direction],
+      self.__wind_speed,
+      (Fore.RED if self.__temperature > 273 else Fore.CYAN) + str(self.__temperature) + Fore.RESET,
+      (Fore.GREEN if self.__preasure < 0.5 else Fore.RED) + str(self.__preasure) + Fore.RESET,
+      (Fore.GREEN if self.__humidity < 30 else Fore.MAGENTA) + str(self.__humidity)
+      ))
 #End weather
 
 # Handle exit gracefully
@@ -53,7 +63,7 @@ while True:
   if len(sensors) != 5:
     continue
   weather.update(*sensors);
-  stdout.write("\r%s" % '{: <48}'.format(weather))
+  stdout.write("\r%s %s" % ('{: <56}'.format(weather.str_with_colors()), Fore.RESET))
   stdout.flush()
   weather.log()
   ser.write("1:%s" % '{: <32}'.format(weather))

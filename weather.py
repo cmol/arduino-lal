@@ -65,4 +65,4 @@ while True:
   stdout.write("\r%s %s %s" % ('{: <56}'.format(weather.str_with_colors()), Fore.RESET, Style.RESET_ALL))
   stdout.flush()
   weather.log()
-  ser.write("1:%s" % '{: <32}'.format(weather))
+  ser.write(("1:%s" % '{: <32}'.format(weather))[:34])
